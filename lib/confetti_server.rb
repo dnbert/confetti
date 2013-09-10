@@ -33,6 +33,40 @@ post '/:node_id/info' do
     # return all information regarding this node
 end
 
+post '/:node_id/update' do
+    # check against a token that is predefined for this node
+
+    # check against :node_id value
+
+    # the update method should update the metric data for this specific node id
+    # we need to identify what to do to prevent from consecutive updates whether
+    # this be inside of ES itself or middleware between Confetti->ES such as
+    # RabbitMQ. We should expect to see a "value" of some sort, either boolean
+    # or long floating integer. UP or DOWN should be indicated by TRUE or FALSE boolean
+    # values while returns for jobs such as "uptime" should be long floats
+    
+    # return 200 or 500 depending on if the update was successfully delivered
+    # if there is a 500 error we need to update the node status. We may want to
+    # only have :node_id/updates sent through a MQ and post other requests directly
+    # to ES. For a 500 error we may want more options to indicate how to report a failure,
+    # via email or XMPP notifications
+end
+
+post '/:node_id/rules' do
+    # check against a token that is predefined for this node
+    
+    # check against :node_id value
+
+    # the rules method should be returning a json object that contains a unique list of
+    # content to run on the machine. the list of rules to run should be in a nested json object
+    # living in ES. The most interesting bit is how we define rules. Should rules be YAML objects
+    # that have predefined actions such as uptime? Or should rules be pure language files? In any case
+    # these should be defined inside of a nested json object inside of ES node_id->rules->my_rule->command
+    # recreate a new json object with the commands to run explicitly
+    
+    # return the json object
+end
+
 post '/:node_id/register' do
     # check against a token that is predefined for registrations
 
